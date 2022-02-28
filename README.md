@@ -22,7 +22,7 @@ Please contact me on discord at **iq#2360** or join the [discord server](https:/
 Make sure you have the following:
 
  - Java 18
- - CTS
+ - CTS (Everything inside the .zip)
  - Minecraft Server running either Spigot or Paper (within the compatibility)
 
 The CTS plugin comes prepared with all requirements it needs. The zip file is created to support 1.18.1, you may need to find the version that fits your Minecraft version.
