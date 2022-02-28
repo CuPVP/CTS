@@ -1,0 +1,2 @@
+on join:
+    execute console command "attribute %player% minecraft:generic.attack_speed base set 12"

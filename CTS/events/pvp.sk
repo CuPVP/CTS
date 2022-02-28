@@ -1,0 +1,165 @@
+# ------------------------------------------------------- #
+#           CTS PLUGIN                                    #
+#       Created by 1iq_ in 2 days...                      #
+#      https://github.com/CuPVP/CTS                       #
+# ------------------------------------------------------- #
+import:
+    org.bukkit.FluidCollisionMode
+    org.bukkit.event.player.PlayerMoveEvent
+
+on damage:
+    if victim is player:
+        if attacker is player:
+            if attacker's held item is trident:
+                if {temp::cts::delay::trident::%victim%} is not set:
+                    set {temp::cts::delay::trident::%victim%} to true
+                    wait 18 ticks
+                    clear {temp::cts::delay::trident::%victim%}
+                else:
+                    cancel event
+                    send action bar "&cYou need to wait before using your Trident again!" to attacker
+            if attacker's held item is netherite axe or diamond axe or golden axe or iron axe or stone axe or wooden axe:
+                if {temp::cts::delay::axe::%victim%} is not set:
+                    set {temp::cts::delay::axe::%victim%} to true
+                    wait 13 ticks
+                    clear {temp::cts::delay::axe::%victim%}
+                else:
+                    cancel event
+                    send action bar "&cYou need to wait before using your Axe again!" to attacker
+            if attacker's held item is netherite sword or diamond sword or golden sword or iron sword or stone sword or wooden sword:
+                if {temp::cts::delay::sword::%victim%} is not set:
+                    set {temp::cts::delay::sword::%victim%} to true
+                    wait 3 ticks
+                    clear {temp::cts::delay::sword::%victim%}
+                else:
+                    cancel event
+
+# Check for sword data and stuff idk
+on damage:
+    if victim is player:
+        if attacker is player:
+            if attacker's held item is netherite sword or diamond sword or golden sword or iron sword or stone sword or wooden sword:
+                if {temp::cts::delay::count::sword::%victim%} is greater than or equal to 3:
+                    cancel event
+                    wait 5 ticks
+                    clear {temp::cts::delay::count::sword::%victim%}
+                else:
+                    add 1 to {temp::cts::delay::count::sword::%victim%}
+
+# Axe 2 block thing
+on damage:
+    if victim is player:
+        if attacker is player:
+            if attacker's held item is netherite axe or diamond axe or golden axe or iron axe or stone axe or wooden axe:
+                set {_p} to attacker
+                set {_finaldist} to {_p}.getVelocity().getY()
+                if distance between attacker's location and victim's location is greater than 2.12 + {_p}.getAttackCooldown() + {_finaldist}:
+                    cancel event
+
+# Check for sword dmg values
+on damage:
+    if victim is player:
+        if attacker is player:
+            if attacker's held item is netherite sword or diamond sword or golden sword or iron sword or stone sword or wooden sword:
+                increase damage by -1
+
+on left click:
+    set {_p} to player
+    set {_finaldist} to {_p}.getVelocity().getY()
+    replace all "-" with "" in {_finaldist}
+    if player's held item is trident:
+        if target entity of player is set:
+            if distance between player's location and location of target entity of player is less than or equal to 3.7 + {_p}.getAttackCooldown() + {_finaldist}:
+                set {_victim} to target entity of player
+                set {temp::%player%::canPvP} to true
+                set {_currentDamage} to 7
+                if {temp::cts::delay::trident::%player%} is set:
+                    set {_currentDamage} to 0
+                if {_p}.getVelocity().getY() > 0:
+                    show critical hit at location of {_victim}
+                    {_victim}.damage({_currentDamage} + {_currentDamage}*0.5, player)
+                else:
+                    {_victim}.damage({_currentDamage}, player)
+                if {_p}.getVelocity().getY() < -0.08:
+                    show critical hit at location of {_victim}
+                    {_victim}.damage({_currentDamage} + {_currentDamage}*0.5, player)
+                else:
+                    {_victim}.damage({_currentDamage}, player)
+                wait 4 ticks
+                clear {temp::%player%::canPvP}
+    if player's held item is netherite sword or diamond sword or golden sword or iron sword or stone sword or wooden sword:
+        if target entity of player is set:
+            if distance between player's location and location of target entity of player is less than or equal to 3.2 + {_p}.getAttackCooldown() + {_finaldist}:
+                set {_victim} to target entity of player
+                set {temp::%player%::canPvP} to true
+                if player's held item is wooden sword or golden sword:
+                    set {_currentDamage} to 4
+                if player's held item is stone sword:
+                    set {_currentDamage} to 4
+                if player's held item is iron sword:
+                    set {_currentDamage} to 5
+                if player's held item is diamond sword:
+                    set {_currentDamage} to 6
+                if player's held item is netherite sword:
+                    set {_currentDamage} to 7
+                if {temp::cts::delay::sword::%player%} is set:
+                    set {_currentDamage} to 0
+                if {_p}.getVelocity().getY() > 0:
+                    show critical hit at location of {_victim}
+                    {_victim}.damage({_currentDamage} + {_currentDamage}*0.5, player)
+                else:
+                    {_victim}.damage({_currentDamage}, player)
+                if {_p}.getVelocity().getY() < -0.08:
+                    show critical hit at location of {_victim}
+                    {_victim}.damage({_currentDamage} + {_currentDamage}*0.5, player)
+                else:
+                    {_victim}.damage({_currentDamage}, player)
+                wait 4 ticks
+                clear {temp::%player%::canPvP}
+    if player's held item is netherite axe or diamond axe or golden axe or iron axe or stone axe or wooden axe:
+        if target entity of player is set:
+            if distance between player's location and location of target entity of player is less than or equal to 2.12 + {_p}.getAttackCooldown() + {_finaldist}:
+                set {_victim} to target entity of player
+                set {temp::%player%::canPvP} to true
+                if player's held item is wooden axe or golden axe:
+                    set {_currentDamage} to 5
+                if player's held item is stone axe:
+                    set {_currentDamage} to 5
+                if player's held item is iron axe:
+                    set {_currentDamage} to 6
+                if player's held item is diamond axe:
+                    set {_currentDamage} to 7
+                if player's held item is netherite axe:
+                    set {_currentDamage} to 8
+                if {temp::cts::delay::axe::%player%} is set:
+                    set {_currentDamage} to 0
+                if {_p}.getVelocity().getY() > 0:
+                    show critical hit at location of {_victim}
+                    {_victim}.damage({_currentDamage} + {_currentDamage}*0.5, player)
+                else:
+                    {_victim}.damage({_currentDamage}, player)
+                if {_p}.getVelocity().getY() < -0.08:
+                    show critical hit at location of {_victim}
+                    {_victim}.damage({_currentDamage} + {_currentDamage}*0.5, player)
+                else:
+                    {_victim}.damage({_currentDamage}, player)
+                wait 4 ticks
+                clear {temp::%player%::canPvP}
+    else:
+        if target entity of player is set:
+            if distance between player's location and location of target entity of player is less than or equal to 2 + {_p}.getAttackCooldown() + {_finaldist}:
+                set {_victim} to target entity of player
+                set {temp::%player%::canPvP} to true
+                set {_temp::fistdmg} to random integer between 0 and 1
+                if {_p}.getVelocity().getY() > 0:
+                    show critical hit at location of {_victim}
+                    {_victim}.damage({_temp::fistdmg} + {_temp::fistdmg}*0.5, player)
+                else:
+                    {_victim}.damage({_temp::fistdmg}, player)
+                if {_p}.getVelocity().getY() < -0.08:
+                    show critical hit at location of {_victim}
+                    {_victim}.damage({_temp::fistdmg} + {_temp::fistdmg}*0.5, player)
+                else:
+                    {_victim}.damage({_temp::fistdmg}, player)
+                wait 4 ticks
+                clear {temp::%player%::canPvP}

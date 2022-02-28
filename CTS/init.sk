@@ -1,0 +1,46 @@
+options:
+    ver: 1.0.0 # makes sure this is up to date.
+
+import:
+    java.lang.System
+    java.net.URL
+    java.net.URLEncoder
+    java.nio.file.Files
+    java.io.File
+    java.io.BufferedReader
+    java.io.InputStream
+    java.io.InputStreamReader
+    java.io.FileWriter
+    java.time.LocalDateTime
+    org.apache.commons.io.FileUtils
+    org.bukkit.Bukkit
+
+# Use SE2's downloadString to create an updater.
+
+function CTS_downloadString(url: text) :: strings:
+    set {_url} to new URL({_url})
+    set {_in} to new BufferedReader(new InputStreamReader({_url}.openStream()))
+    set {_count} to 0
+    while true:
+        set {_content::%{_count}%} to {_in}.readLine()
+        if {_content::%{_count}%} isn't set:
+            delete {_content::%{_count}%}
+            exit loop
+        add 1 to {_count}
+    {_in}.close()
+    return {_content::*}
+
+on script load:
+    set {_dl::*} to CTS_downloadString("https://themecore.oneiqdev.me/version/cts.txt")
+    if {_dl::1} isn't set:
+        broadcast "&c[CTS] &cError checking for updates, please check updates manually just incase."
+    else:
+        set {CTS::latestversion} to {_dl::1}
+        if {CTS::latestversion} is not "{@ver}":
+            broadcast "&c[CTS] &cUpdates are avaliable. Please update to the latest version!"
+
+command cts:
+    trigger:
+        send "&c[CTS] CTS 1.18 Port for Spigot created by &f1iq_&c."
+
+# Adding support for PlugCore soon :)
